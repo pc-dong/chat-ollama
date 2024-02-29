@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Ollama } from "ollama";
-import { loadOllamaHost } from "../utils/settings";
+import { loadOllamaHost } from "~/utils/settings";
 
 const ollama = new Ollama({ host: loadOllamaHost() });
 

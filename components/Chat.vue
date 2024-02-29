@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Ollama } from "ollama";
-import { loadOllamaHost } from "../utils/settings";
+import { loadOllamaHost } from "~/utils/settings";
 
 const ollamaHost = ref(null as string | null);
 const ollama = ref(null as Ollama | null);
@@ -94,7 +94,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
       <ModelsDropdown @modelSelected="onModelSelected" />
     </div>
     <div dir="ltr" class="relative overflow-y-scroll flex-1 space-y-4">
-      <ul className="flex flex-1 flex-col">
+      <ul class="flex flex-1 flex-col">
         <li v-for="(message, index) in messages" :key="index">
           <div
             :class="`${
