@@ -11,6 +11,10 @@ const links = [
     icon: 'i-heroicons-chart-bar',
     to: '/'
   }, {
+    label: 'Documents',
+    icon: 'i-heroicons-clipboard-document-list',
+    to: '/rag'
+  }, {
     label: 'Settings',
     icon: 'i-heroicons-chart-bar',
     to: '/settings'
