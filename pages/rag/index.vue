@@ -7,7 +7,7 @@ const state = reactive({
 })
 
 
-const knowledgeBases = reactive([] as string[])
+const knowledgeBases = reactive([] as any[])
 const selected = ref(knowledgeBases[0] || 'chose a knowledge base')
 const knowledgeBase = ref("" as string)
 const addKnowledgeBase = async () => {
@@ -24,16 +24,31 @@ const addKnowledgeBase = async () => {
     state.files.forEach((file) => {
       formData.append('files', file, file.name)
     })
-   const response = await $fetch('/api/knowledge-base', {
+   const response = await $fetch('/api/knowledge-bases', {
       method: 'POST',
       body: formData
     })
 
-    alert(response)
+    await loadKnowledgeBases()
   } catch (e) {
     console.log(e)
   }
 }
+
+const loadKnowledgeBases = async () => {
+  try {
+    const response = await $fetch('/api/knowledge-bases')
+    knowledgeBases.splice(0, knowledgeBases.length)
+    knowledgeBases.push(...response)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+onMounted( () => {
+  loadKnowledgeBases()
+})
+
 
 const addDocument = () => {
   console.log('Adding document')
@@ -43,6 +58,23 @@ const onFileChange = (event: Event) =>  {
   const _files = (event.target as HTMLInputElement).files as FileList
   state.files = _files ? Array.from(_files) : []
 }
+
+const columns = [{
+  key: 'id',
+  label: 'ID'
+}, {
+  key: 'name',
+  label: 'Name'
+}, {
+  key: 'description',
+  label: 'Description'
+}, {
+  key: 'embedding',
+  label: 'Embedding'
+}, {
+  key: 'files',
+  label: 'Files'
+}]
 </script>
 
 <template>
@@ -68,7 +100,7 @@ const onFileChange = (event: Event) =>  {
       </UForm>
     </UCard>
     <UCard class="flex flex-col w-2/3 ml-5">
-      <UTable></UTable>
+      <UTable :columns="columns" :rows="knowledgeBases" ></UTable>
     </UCard>
 
   </div>
